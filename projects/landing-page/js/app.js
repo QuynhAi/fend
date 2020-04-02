@@ -18,7 +18,7 @@
  * 
 */
 
-let currentActiveSection = null;
+
 
 /**
  * End Global Variables
@@ -52,19 +52,33 @@ let currentActiveSection = null;
 // Build menu 
 document.body.onload = function(){
     addMenuBar();
-    document.onmouseover = function(event){
-        //console.log(event.target.nodeName);
-        if (event.target.nodeName == "SECTION"){
-            console.log(event.target.parentNode.id);
-
-            var active = document.getElementsByClassName("your-active-class");
-            var activeId = document.getElementById(active[0].id);
-            activeId.classList.remove("your-active-class");
-            //debugger;
-            var newActive = document.getElementById(event.target.parentNode.id);
-            newActive.classList.add("your-active-class");
+    window.addEventListener('scroll', function (event) {
+        let allSections = document.querySelectorAll('section')
+        for (let i = 0; i < allSections.length;i++){
+            //console.log(allSection[i]);
+            var bounding = allSections[i].getBoundingClientRect();
+            if (bounding.y >= 0 && bounding.y <= (0.10 * window.innerHeight)){
+                var active = document.getElementsByClassName("your-active-class");
+                var activeId = document.getElementById(active[0].id);
+                activeId.classList.remove("your-active-class");
+                allSections[i].classList.add("your-active-class");
+            }
         }
-    }
+    });
+
+    // document.onmouseover = function(event){
+    //     //console.log(event.target.nodeName);
+    //     if (event.target.nodeName == "SECTION"){
+    //         console.log(event.target.parentNode.id);
+
+    //         var active = document.getElementsByClassName("your-active-class");
+    //         var activeId = document.getElementById(active[0].id);
+    //         activeId.classList.remove("your-active-class");
+    //         //debugger;
+    //         var newActive = document.getElementById(event.target.parentNode.id);
+    //         newActive.classList.add("your-active-class");
+    //     }
+    // }
 };
 
 function addMenuBar () { 
