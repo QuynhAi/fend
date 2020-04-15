@@ -1,8 +1,33 @@
+
 var path = require('path')
 const express = require('express')
 const mockAPIResponse = require('./mockAPI.js')
 
 const app = express()
+var aylien = require('aylien_textapi');
+
+const dotenv = require('dotenv');
+dotenv.config();
+
+
+var textapi = new aylien({
+    application_id: process.env["API_ID"],
+    application_key: process.env["API_KEY"]
+});
+
+console.log(textapi);
+console.log('application id',textapi._options.application_id);
+console.log('application key',textapi._options.application_key);
+
+textapi.sentiment({'text': 'I love you'}, function(error, response) {
+  if (error === null) {
+      console.log(response);
+  }else{
+      console.log("error",error);
+      console.log("response",response);
+  }
+});
+
 
 app.use(express.static('dist'))
 
@@ -21,3 +46,4 @@ app.listen(8080, function () {
 app.get('/test', function (req, res) {
     res.send(mockAPIResponse)
 })
+
